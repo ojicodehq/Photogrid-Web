@@ -1,0 +1,26 @@
+services:
+  photogrid-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: photogrid-web:latest
+    container_name: photogrid-web
+    restart: unless-stopped
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      # Exposition via Traefik, routage sur PUBLIC_DOMAIN.
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.photogrid.rule=Host(`${PUBLIC_DOMAIN}`)
+      - traefik.http.routers.photogrid.entrypoints=websecure
+      - traefik.http.routers.photogrid.tls=true
+      # Certificat Let's Encrypt via DNS-01 (resolver Traefik nommé "cloudflare").
+      - traefik.http.routers.photogrid.tls.certresolver=cloudflare
+      - traefik.http.services.photogrid.loadbalancer.server.port=80
+
+networks:
+  proxy:
+    external: true

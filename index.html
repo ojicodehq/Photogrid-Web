@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr" class="h-full antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PhotoGrid : Imprimez vos photos sur une page</title>
+    <meta
+      name="description"
+      content="Composez et imprimez plusieurs photos sur une seule feuille A4, A5, Letter ou Legal."
+    />
+    <meta name="application-name" content="PhotoGrid" />
+    <meta name="theme-color" content="#C4693D" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- PWA / iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PhotoGrid" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <!-- Anti-FOUC : applique la classe .dark avant le premier paint, selon
+         la préférence persistée par next-themes (clé localStorage "theme").
+         next-themes prend ensuite le relais une fois React monté. -->
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        var dark =
+          t === "dark" ||
+          ((!t || t === "system") &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {
+        /* localStorage indisponible : on laisse next-themes gérer */
+      }
+    </script>
+
+    <!-- CSP + security headers : servis par nginx (cf. nginx.conf).
+         Pas de CSP en <meta> ici : ce même index.html sert aussi de
+         WebView Capacitor, où une CSP figée gênerait le bridge natif. -->
+  </head>
+  <body class="bg-background text-foreground flex min-h-full flex-col">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
