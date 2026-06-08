@@ -1,4 +1,4 @@
-# PhotoGrid Web
+# PhotoGrid
 
 PWA d'impression de photos sur page **A4 / A5 / Letter / Legal**. Composez une
 grille de photos et imprimez-la à l'échelle millimétrique exacte.
