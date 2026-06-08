@@ -11,14 +11,17 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      # Exposition via Traefik, routage sur PUBLIC_DOMAIN.
+      # Exposition derrière un reverse-proxy Traefik joignable via un tunnel qui
+      # termine le TLS en amont et transmet la requête en HTTP clair sur le port
+      # 443 du proxy. Le routeur ne porte donc PAS `tls=true` : il rejetterait ce
+      # HTTP clair (→ 404). Le TLS public est assuré par le tunnel/CDN.
+      # Le middleware IPS (crowdsec@file) est optionnel : retirez la ligne si
+      # votre Traefik ne le définit pas, sinon le routeur sera invalide.
       - traefik.enable=true
       - traefik.docker.network=proxy
       - traefik.http.routers.photogrid.rule=Host(`${PUBLIC_DOMAIN}`)
       - traefik.http.routers.photogrid.entrypoints=websecure
-      - traefik.http.routers.photogrid.tls=true
-      # Certificat Let's Encrypt via DNS-01 (resolver Traefik nommé "cloudflare").
-      - traefik.http.routers.photogrid.tls.certresolver=cloudflare
+      - traefik.http.routers.photogrid.middlewares=crowdsec@file
       - traefik.http.services.photogrid.loadbalancer.server.port=80
 
 networks:
