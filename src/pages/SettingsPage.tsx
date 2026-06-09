@@ -11,6 +11,7 @@ import { useSyncExternalStore } from "react";
 
 import { OjicodeWordmark } from "@/components/brand/OjicodeWordmark";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { useLiveVersion } from "@/lib/appVersion";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -37,6 +38,7 @@ export default function SettingsPage() {
     getServerSnapshot,
   );
   const { available: canInstall, promptInstall } = useInstallPrompt();
+  const version = useLiveVersion();
 
   const applyTheme = (pref: ThemePreference) => {
     setStoreTheme(pref);
@@ -128,7 +130,7 @@ export default function SettingsPage() {
             {t.settings.sections.about}
           </Label>
           <div className="mt-3 flex items-baseline justify-between">
-            <span className="text-[15px] font-medium">{t.settings.version("0.1.0")}</span>
+            <span className="text-[15px] font-medium">{t.settings.version(version)}</span>
             <span className="text-muted-foreground text-[13px]">{t.settings.author}</span>
           </div>
         </section>
@@ -156,7 +158,7 @@ export default function SettingsPage() {
           <div className="border-border/60 mt-auto flex flex-col gap-2 border-t px-3 pt-4">
             <OjicodeWordmark height={18} />
             <p className="text-muted-foreground text-[11px] leading-relaxed">
-              {t.settings.version("0.1.0")} · {t.app.tagline}
+              {t.settings.version(version)} · {t.app.tagline}
             </p>
           </div>
         </aside>
@@ -238,7 +240,7 @@ export default function SettingsPage() {
               <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <AboutRow
                   label={t.settings.about.version}
-                  value="0.1.0"
+                  value={version}
                 />
                 <div>
                   <dt className="text-muted-foreground text-[11px] font-semibold tracking-[0.06em] uppercase">

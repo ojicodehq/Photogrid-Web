@@ -17,6 +17,11 @@ import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
+// `--web-only` : bump destiné à une release OTA (couche web uniquement). On
+// ne touche pas au build.gradle Android car aucun nouvel APK n'est produit ;
+// seul package.json fait foi pour la version du bundle live-update.
+const webOnly = process.argv.includes("--web-only");
+
 // --- package.json ---
 const pkgPath = join(root, "package.json");
 const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
@@ -37,15 +42,23 @@ if (existsSync(lockPath)) {
   writeFileSync(lockPath, JSON.stringify(lock, null, 2) + "\n");
 }
 
-// --- android/app/build.gradle ---
-const gradlePath = join(root, "android", "app", "build.gradle");
-let gradle = readFileSync(gradlePath, "utf8");
-const codeMatch = gradle.match(/versionCode\s+(\d+)/);
-if (!codeMatch) throw new Error("versionCode introuvable dans build.gradle");
-const nextCode = Number(codeMatch[1]) + 1;
-gradle = gradle
-  .replace(/versionCode\s+\d+/, `versionCode ${nextCode}`)
-  .replace(/versionName\s+"[^"]*"/, `versionName "${next}"`);
-writeFileSync(gradlePath, gradle);
+// --- android/app/build.gradle (sauté en mode --web-only) ---
+if (webOnly) {
+  console.log(
+    `✓ Version web bumpée (OTA) : ${major}.${minor}.${patch} → ${next} (build.gradle inchangé)`,
+  );
+} else {
+  const gradlePath = join(root, "android", "app", "build.gradle");
+  let gradle = readFileSync(gradlePath, "utf8");
+  const codeMatch = gradle.match(/versionCode\s+(\d+)/);
+  if (!codeMatch) throw new Error("versionCode introuvable dans build.gradle");
+  const nextCode = Number(codeMatch[1]) + 1;
+  gradle = gradle
+    .replace(/versionCode\s+\d+/, `versionCode ${nextCode}`)
+    .replace(/versionName\s+"[^"]*"/, `versionName "${next}"`);
+  writeFileSync(gradlePath, gradle);
 
-console.log(`✓ Version bumpée : ${major}.${minor}.${patch} → ${next} (versionCode ${nextCode})`);
+  console.log(
+    `✓ Version bumpée : ${major}.${minor}.${patch} → ${next} (versionCode ${nextCode})`,
+  );
+}
