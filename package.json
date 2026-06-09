@@ -11,7 +11,9 @@
     "build:android": "npm run build && npx cap sync android",
     "open:android": "npx cap open android",
     "publish:apk": "bash scripts/publish-apk.sh",
-    "release:apk": "node scripts/bump-version.mjs && npm run publish:apk"
+    "release:apk": "node scripts/bump-version.mjs && npm run publish:apk",
+    "publish:bundle": "bash scripts/publish-bundle.sh",
+    "release:ota": "node scripts/bump-version.mjs --web-only && npm run publish:bundle"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -19,6 +21,7 @@
     "@capacitor/core": "^8.3.4",
     "@capacitor/filesystem": "^8.1.2",
     "@capgo/capacitor-printer": "^8.0.14",
+    "@capgo/capacitor-updater": "^8.49.0",
     "@serwist/window": "^9.5.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -37,6 +40,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.3.4",
+    "@capgo/cli": "^8.1.3",
     "@eslint/js": "^9.0.0",
     "@fontsource-variable/dm-sans": "^5.2.5",
     "@fontsource-variable/outfit": "^5.2.5",

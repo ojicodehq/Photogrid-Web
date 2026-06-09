@@ -36,3 +36,9 @@ node_modules/.tmp
 *.keystore
 *.apk
 *.aab
+
+# Capgo OTA : clé privée de signature/chiffrement E2E, JAMAIS commitée
+# (même logique que le keystore). La clé publique, elle, est embarquée
+# dans capacitor.config.ts et peut rester dans le repo public.
+.capgo_key_v2
+.capgo_key_v2.pub

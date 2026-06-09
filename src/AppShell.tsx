@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { notifyAppReady } from "@/lib/liveUpdate";
 import { requestPersistence } from "@/lib/photoStorage";
 import { usePhotoGridStore } from "@/lib/store";
 
@@ -19,6 +20,8 @@ import { usePhotoGridStore } from "@/lib/store";
  */
 export function AppShell() {
   useEffect(() => {
+    // Confirme au plugin OTA que le bundle a démarré (sinon rollback auto).
+    void notifyAppReady();
     void requestPersistence();
     void usePhotoGridStore.getState().hydratePhotosFromStorage();
   }, []);
