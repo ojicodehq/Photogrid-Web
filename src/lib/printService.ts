@@ -7,6 +7,29 @@ import type { LayoutConfig, PhotoType } from "@/types";
 
 const PDF_FILENAME = "photogrid.pdf";
 
+/** Supprime le PDF temporaire du cache natif (silencieux si absent). */
+async function deleteCachedPdf(): Promise<void> {
+  try {
+    await Filesystem.deleteFile({
+      path: PDF_FILENAME,
+      directory: Directory.Cache,
+    });
+  } catch {
+    // Fichier absent : rien à nettoyer.
+  }
+}
+
+/**
+ * Purge le PDF résiduel d'une impression précédente. À appeler au
+ * démarrage natif : filet de sécurité si l'app a été tuée avant le
+ * nettoyage post-impression (cf. `printDocument`), pour qu'un PDF pleine
+ * résolution ne traîne pas indéfiniment dans le cache de l'appareil.
+ */
+export async function cleanupPrintArtifacts(): Promise<void> {
+  if (!Capacitor.isNativePlatform()) return;
+  await deleteCachedPdf();
+}
+
 /**
  * Convertit un blob en base64 (sans le préfixe `data:`). Passe par
  * `FileReader` pour gérer les gros fichiers sans saturer la pile d'appels.
@@ -59,6 +82,16 @@ export async function printDocument(
       path: uri,
       mimeType: "application/pdf",
     });
+    // `printFile` se résout dès l'envoi au PrintManager, qui relit le
+    // fichier en différé pendant le dialogue d'impression : supprimer ici
+    // casserait le job. On nettoie au retour en avant-plan (dialogue
+    // fermé) ; `cleanupPrintArtifacts` au démarrage sert de filet.
+    const onVisible = () => {
+      if (document.visibilityState !== "visible") return;
+      document.removeEventListener("visibilitychange", onVisible);
+      void deleteCachedPdf();
+    };
+    document.addEventListener("visibilitychange", onVisible);
     return;
   }
 
