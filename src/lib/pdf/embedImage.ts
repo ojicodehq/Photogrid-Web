@@ -87,33 +87,31 @@ function stripJpegMetadata(bytes: Uint8Array): Uint8Array {
 }
 
 /**
- * Transcode une image vers PNG via `<canvas>` : utilisé en dernier
- * recours pour les formats que pdf-lib ne sait pas embarquer (WebP…).
- * PNG est sans perte : pas de dégradation, seulement un fichier plus lourd.
+ * Transcode une image vers PNG : utilisé en dernier recours pour les
+ * formats que pdf-lib ne sait pas embarquer (WebP…). PNG est sans perte :
+ * pas de dégradation, seulement un fichier plus lourd.
+ *
+ * `createImageBitmap` + `OffscreenCanvas` (et non `<img>` + `<canvas>`
+ * DOM) : ce module tourne aussi bien dans le Web Worker PDF que sur le
+ * main thread (repli), et seules ces API existent dans les deux contextes.
  */
 async function transcodeToPng(uri: string): Promise<Uint8Array> {
-  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-    const el = new Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error("Décodage image échoué"));
-    el.src = uri;
-  });
+  const res = await fetch(uri);
+  if (!res.ok) throw new Error(`Lecture image échouée : ${uri}`);
+  const bitmap = await createImageBitmap(await res.blob());
 
-  const canvas = document.createElement("canvas");
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
+  const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Contexte canvas 2D indisponible");
-  ctx.drawImage(img, 0, 0);
-
-  const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, "image/png"),
-  );
-  // Libère le bitmap : un canvas HD pèse plusieurs dizaines de Mo, à ne
+  if (!ctx) {
+    bitmap.close();
+    throw new Error("Contexte canvas 2D indisponible");
+  }
+  ctx.drawImage(bitmap, 0, 0);
+  // Libère le bitmap : une image HD pèse plusieurs dizaines de Mo, à ne
   // pas laisser traîner jusqu'au GC sur mobile.
-  canvas.width = 0;
-  canvas.height = 0;
-  if (!blob) throw new Error("Transcodage PNG échoué");
+  bitmap.close();
+
+  const blob = await canvas.convertToBlob({ type: "image/png" });
   return new Uint8Array(await blob.arrayBuffer());
 }
 
