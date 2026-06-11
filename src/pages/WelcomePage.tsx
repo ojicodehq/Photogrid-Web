@@ -7,7 +7,7 @@ import { fr as t } from "@/lib/strings/fr";
 
 export default function WelcomePage() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex min-h-dvh flex-col">
       {/* Top bar (desktop only) */}
       <div className="hidden h-16 items-center px-8 lg:flex">
         <Brand />

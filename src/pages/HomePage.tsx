@@ -30,7 +30,7 @@ export default function HomePage() {
   const emptySlots = Math.max(0, photosPerPage - (photoCount % photosPerPage || photosPerPage));
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       {/* Mobile header */}
       <AppHeader
         className="lg:hidden"
@@ -94,7 +94,7 @@ export default function HomePage() {
 
       {/* Desktop master-detail */}
       <div className="hidden lg:grid lg:grid-cols-[380px_1fr] lg:flex-1">
-        <aside className="border-border bg-card flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto border-r">
+        <aside className="border-border bg-card flex max-h-[calc(100dvh-4rem)] flex-col overflow-y-auto border-r">
           <div className="px-5 py-6">
             <LayoutConfigPanel />
           </div>
@@ -114,7 +114,7 @@ export default function HomePage() {
           ) : null}
         </aside>
 
-        <main className="max-h-[calc(100vh-4rem)] overflow-y-auto px-10 py-8">
+        <main className="max-h-[calc(100dvh-4rem)] overflow-y-auto px-10 py-8">
           <div className="mb-7 flex items-end justify-between gap-6">
             <div className="min-w-0">
               <h1 className="font-display text-[32px] leading-[1.05] font-bold tracking-[-0.02em]">
