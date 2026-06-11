@@ -80,7 +80,7 @@ export default function PreviewPage() {
 
   if (photos.length === 0) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-dvh flex-col">
         <AppHeader
           title={t.preview.title}
           variant="blurred-back"
@@ -107,7 +107,7 @@ export default function PreviewPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       {/* Mobile header */}
       <AppHeader
         className="lg:hidden"
@@ -180,7 +180,7 @@ export default function PreviewPage() {
 
       {/* Desktop master-detail */}
       <div className="no-print bg-secondary hidden flex-1 lg:grid lg:grid-cols-[340px_1fr]">
-        <aside className="border-border bg-card flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto border-r">
+        <aside className="border-border bg-card flex max-h-[calc(100dvh-4rem)] flex-col overflow-y-auto border-r">
           {/* Summary */}
           <section className="border-border/60 border-b px-6 py-6">
             <SectionLabel>{t.config.title}</SectionLabel>
@@ -277,7 +277,7 @@ export default function PreviewPage() {
           </div>
         </aside>
 
-        <main className="flex max-h-[calc(100vh-4rem)] flex-col items-center overflow-y-auto px-10 py-10">
+        <main className="flex max-h-[calc(100dvh-4rem)] flex-col items-center overflow-y-auto px-10 py-10">
           <div className="flex flex-1 items-center justify-center overflow-hidden">
             <div
               className="overflow-hidden"

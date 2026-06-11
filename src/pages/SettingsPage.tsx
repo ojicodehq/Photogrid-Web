@@ -46,7 +46,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       {/* Mobile header */}
       <AppHeader
         className="lg:hidden"
@@ -138,7 +138,7 @@ export default function SettingsPage() {
 
       {/* Desktop master-detail */}
       <div className="hidden flex-1 lg:grid lg:grid-cols-[280px_1fr]">
-        <aside className="border-border bg-card flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto border-r px-4 py-6">
+        <aside className="border-border bg-card flex max-h-[calc(100dvh-4rem)] flex-col overflow-y-auto border-r px-4 py-6">
           <h2 className="font-display px-3 pb-3 text-[20px] font-semibold tracking-tight">
             {t.settings.title}
           </h2>
@@ -163,7 +163,7 @@ export default function SettingsPage() {
           </div>
         </aside>
 
-        <main className="max-h-[calc(100vh-4rem)] overflow-y-auto px-12 py-10">
+        <main className="max-h-[calc(100dvh-4rem)] overflow-y-auto px-12 py-10">
           <div className="mx-auto max-w-3xl">
             {/* Apparence */}
             <header className="mb-8">
