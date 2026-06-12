@@ -1,0 +1,23 @@
+Hero demo photos — provenance & license
+========================================
+
+All photos below are from Pexels (https://www.pexels.com), used under the
+Pexels License: free for commercial use, no attribution required.
+See https://www.pexels.com/license/
+
+They were deliberately chosen without any identifiable person, logo or
+private property, so no model/property release is needed.
+
+Attribution is not required but is kept here for provenance:
+
+photo-1.webp  https://www.pexels.com/photo/29127076/
+photo-2.webp  https://www.pexels.com/photo/32066575/
+photo-3.webp  https://www.pexels.com/photo/36922149/
+photo-4.webp  https://www.pexels.com/photo/417074/
+photo-5.webp  https://www.pexels.com/photo/10489841/
+photo-6.webp  https://www.pexels.com/photo/4783760/
+photo-7.webp  https://www.pexels.com/photo/29072296/
+photo-8.webp  https://www.pexels.com/photo/9017829/
+photo-9.webp  https://www.pexels.com/photo/4353811/
+
+Images were cropped to 400x400 and re-encoded to WebP for the landing hero.
