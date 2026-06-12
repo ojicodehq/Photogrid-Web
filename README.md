@@ -18,7 +18,7 @@ caser plusieurs tirages sur une même page sans gâcher de papier.
 
 ![PhotoGrid sur ordinateur](./public/screenshots/desktop.png)
 
-<img src="./public/screenshots/mobile.png" alt="PhotoGrid sur mobile" width="280" />
+
 
 ## Installation
 
