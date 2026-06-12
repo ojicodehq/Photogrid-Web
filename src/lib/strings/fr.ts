@@ -16,13 +16,13 @@ export const fr = {
     titleMain: "Plusieurs photos.",
     titleAccent: "Une seule page.",
     subtitle:
-      "Composez votre grille, choisissez votre format, imprimez depuis votre navigateur.",
+      "Composez votre grille, ajustez les marges, imprimez depuis le navigateur. Sans inscription.",
     cta: "Commencer",
     eyebrow: "Impression photo",
     bullets: {
-      offline: { label: "Hors-ligne", hint: "PWA installable" },
-      formats: { label: "A4 / A5 / Letter", hint: "4 formats prêts" },
-      instant: { label: "Instantané", hint: "Aperçu live" },
+      grid: { label: "Grilles personnalisables", hint: "jusqu'à 10×10" },
+      formats: { label: "Formats A4, A5, Letter, Legal", hint: "" },
+      quality: { label: "Impression nette", hint: "jusqu'à 300 PPI" },
     },
   },
   landing: {
