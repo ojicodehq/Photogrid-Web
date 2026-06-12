@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 
 import "@fontsource-variable/dm-sans";
 import "@fontsource-variable/outfit";
+// Fraunces (italique) : police accent officielle Ojicode, réservée au titre
+// du hero (« Une seule page. »). Variante wght-italic uniquement = léger.
+import "@fontsource-variable/fraunces/wght-italic.css";
 import "@/styles/globals.css";
 
 import { AppRouter } from "@/AppRouter";

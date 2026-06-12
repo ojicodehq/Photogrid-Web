@@ -11,6 +11,7 @@
   --font-mono: var(--font-sans);
   --font-display: var(--font-display);
   --font-heading: var(--font-display);
+  --font-accent: var(--font-accent);
 
   /* iOS-inspired semantic tokens */
   --color-success: var(--success);
@@ -64,6 +65,7 @@
      DM Sans = body, Outfit = display (stack typo officielle Ojicode). */
   --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-accent: "Fraunces Variable", ui-serif, Georgia, serif;
 
   --background: #faf9f7; /* cream officiel */
   --foreground: #191816; /* warm dark officiel */
@@ -172,5 +174,48 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ---- Hero PhotoGrid : composition de la grille au chargement ---- */
+@layer components {
+  /* Chaque vignette « tombe » dans sa case, en cascade (delay inline). */
+  .hero-cell {
+    animation: hero-cell-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* La case « à composer » (liseré terracotta) respire doucement. */
+  .hero-next {
+    animation: hero-next-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-cell-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hero-next-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--primary) 45%, transparent);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--primary) 80%, transparent);
+  }
+}
+
+/* Accessibilité : pas d'animation si l'utilisateur la refuse. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-cell,
+  .hero-next {
+    animation: none;
   }
 }
