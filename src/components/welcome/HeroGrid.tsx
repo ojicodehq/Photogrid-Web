@@ -1,10 +1,23 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Photos de démonstration du hero (décoratives, donc `aria-hidden` côté parent).
- * Stockées dans `public/hero/` — locales, conformes au CSP `img-src 'self'`.
+ * Tuiles de démonstration du hero : dégradés maison dans la charte Ojicode
+ * (terracotta, ambre, sage, bleu poussiéreux + quelques « horizons »). 100 %
+ * CSS, aucun fichier image ni licence tierce, aucun visage. Une fine lueur
+ * radiale en surcouche donne du relief (moins plat qu'un dégradé simple).
  */
-const PHOTOS = Array.from({ length: 9 }, (_, i) => `/hero/photo-${i + 1}.webp`);
+const SHEEN = "radial-gradient(circle at 30% 24%, rgba(255,255,255,0.16), transparent 56%)";
+const TILES = [
+  `${SHEEN}, linear-gradient(150deg, #c4693d, #e0a06a)`,
+  `${SHEEN}, linear-gradient(165deg, #f1e0cd 8%, #e2ad7e)`,
+  `${SHEEN}, linear-gradient(150deg, #3f6b7a, #8fb3c0)`,
+  `${SHEEN}, linear-gradient(150deg, #a4502b, #c97d5a)`,
+  `${SHEEN}, linear-gradient(150deg, #5b8c5a, #a9c6a0)`,
+  `${SHEEN}, linear-gradient(165deg, #f3d9b8 10%, #d98e54)`,
+  `${SHEEN}, linear-gradient(150deg, #8c7a6b, #c9b7a4)`,
+  `${SHEEN}, linear-gradient(150deg, #3f6b52, #7fa98a)`,
+  `${SHEEN}, linear-gradient(150deg, #c97d5a, #e8b6a0)`,
+];
 
 /**
  * Une case de la grille :
@@ -42,7 +55,7 @@ export function HeroGrid({ cells, columns, size = "sm", className }: HeroGridPro
     >
       {cells.map((cell, i) => {
         if (cell === "photo") {
-          const src = PHOTOS[photoIndex % PHOTOS.length];
+          const tile = TILES[photoIndex % TILES.length];
           const delay = revealIndex * 70;
           photoIndex += 1;
           revealIndex += 1;
@@ -50,12 +63,12 @@ export function HeroGrid({ cells, columns, size = "sm", className }: HeroGridPro
             <div
               key={i}
               className={cn(
-                // ring + ombre theme-aware : même un ciel clair se détache du cream
-                "hero-cell ring-foreground/15 aspect-square bg-cover bg-center shadow-md shadow-black/20 ring-1",
+                // ring + ombre theme-aware : la tuile se détache du fond
+                "hero-cell ring-foreground/15 aspect-square shadow-md shadow-black/20 ring-1",
                 rounded,
               )}
               style={{
-                backgroundImage: `url(${src})`,
+                backgroundImage: tile,
                 animationDelay: `${delay}ms`,
               }}
             />
