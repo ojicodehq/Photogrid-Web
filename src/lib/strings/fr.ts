@@ -18,7 +18,7 @@ export const fr = {
     subtitle:
       "Composez votre grille, choisissez votre format, imprimez depuis votre navigateur.",
     cta: "Commencer",
-    eyebrow: "Impression depuis le navigateur",
+    eyebrow: "Impression photo",
     bullets: {
       offline: { label: "Hors-ligne", hint: "PWA installable" },
       formats: { label: "A4 / A5 / Letter", hint: "4 formats prêts" },

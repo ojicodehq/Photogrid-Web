@@ -2,9 +2,13 @@ import { Layers, Sparkles, WifiOff } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 
 import { buttonVariants } from "@/components/ui/button";
+import {
+  HeroGrid,
+  HERO_CELLS_DESKTOP,
+  HERO_CELLS_MOBILE,
+} from "@/components/welcome/HeroGrid";
 import { LandingContent } from "@/components/landing/LandingContent";
 import { LandingNav } from "@/components/landing/LandingNav";
-import { PhotoFan } from "@/components/welcome/PhotoFan";
 import { isAppMode } from "@/lib/platform";
 import { fr as t } from "@/lib/strings/fr";
 
@@ -20,22 +24,47 @@ export default function WelcomePage() {
       <LandingNav />
 
       {/* Hero : occupe le premier écran sous la barre de navigation */}
-      <main className="flex min-h-[calc(100dvh-4rem)] flex-col">
-        {/* Mobile layout */}
-        <div className="flex flex-1 flex-col px-7 pt-8 pb-10 lg:hidden">
-          <PhotoFan className="mt-2 mb-8" />
+      <main className="flex flex-col">
+        {/* ---- Mobile : titre par-dessus la grille en haut à droite ---- */}
+        <div className="flex flex-col px-7 pt-7 pb-12 lg:hidden">
+          <div className="relative">
+            <HeroGrid
+              cells={HERO_CELLS_MOBILE}
+              columns={4}
+              className="absolute -top-1 right-0 z-0 w-[56%] max-w-[216px]"
+            />
+            {/* Voile : garde le titre lisible là où il croise la grille */}
+            <div className="from-background via-background/70 pointer-events-none absolute inset-0 z-[5] bg-gradient-to-r to-transparent to-90%" />
 
-          <h1 className="font-display text-[44px] leading-[0.95] font-bold tracking-tight">
-            {t.welcome.titleMain}
-            <br />
-            <span className="text-primary italic">{t.welcome.titleAccent}</span>
-          </h1>
+            <div className="relative z-10 pt-[56px]">
+              <Eyebrow />
+              <h1 className="font-display mt-4 text-[42px] leading-[0.98] font-extrabold tracking-[-0.02em]">
+                {t.welcome.titleMain}
+                <span className="font-accent text-primary mt-1.5 block text-[39px] font-medium italic tracking-[-0.01em]">
+                  {t.welcome.titleAccent}
+                </span>
+              </h1>
+            </div>
+          </div>
 
-          <p className="text-muted-foreground mt-5 text-[15px] leading-relaxed">
+          <p className="text-muted-foreground mt-6 max-w-[300px] text-[15px] leading-relaxed">
             {t.welcome.subtitle}
           </p>
 
-          <div className="flex-1" />
+          <ul className="mt-7 flex flex-col gap-3.5">
+            <DotItem
+              label={t.welcome.bullets.formats.label}
+              hint={t.welcome.bullets.formats.hint}
+            />
+            <DotItem
+              label={t.welcome.bullets.offline.label}
+              hint={t.welcome.bullets.offline.hint}
+            />
+            <DotItem
+              label={t.welcome.bullets.instant.label}
+              hint={t.welcome.bullets.instant.hint}
+            />
+          </ul>
 
           <Link
             to="/home"
@@ -43,7 +72,7 @@ export default function WelcomePage() {
             className={buttonVariants({
               size: "lg",
               className:
-                "shadow-primary/25 font-display h-14 w-full justify-between rounded-2xl text-[17px] font-bold tracking-tight shadow-lg",
+                "shadow-primary/25 font-display mt-9 h-14 w-full justify-between rounded-2xl text-[17px] font-bold tracking-tight shadow-lg",
             })}
           >
             <span>{t.welcome.cta}</span>
@@ -51,18 +80,14 @@ export default function WelcomePage() {
           </Link>
         </div>
 
-        {/* Desktop layout : hero split */}
-        <section className="mx-auto hidden w-full max-w-[1280px] flex-1 grid-cols-2 items-center gap-[60px] px-20 lg:grid">
+        {/* ---- Desktop : hero split (texte à gauche, grille à droite) ---- */}
+        <section className="mx-auto hidden min-h-[calc(100dvh-4rem)] w-full max-w-[1280px] grid-cols-2 items-center gap-[60px] px-20 lg:grid">
           <div className="max-w-[540px]">
-            <span className="border-border bg-card inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.08em] uppercase">
-              <span className="bg-success size-2 animate-pulse rounded-full" />
-              {t.welcome.eyebrow}
-            </span>
+            <Eyebrow />
 
-            <h1 className="font-display mt-7 text-[72px] leading-[0.98] font-bold tracking-[-0.035em]">
+            <h1 className="font-display mt-6 text-[72px] leading-[0.98] font-extrabold tracking-[-0.035em]">
               {t.welcome.titleMain}
-              <br />
-              <span className="text-primary italic">
+              <span className="font-accent text-primary mt-2 block text-[66px] font-medium italic tracking-[-0.02em]">
                 {t.welcome.titleAccent}
               </span>
             </h1>
@@ -105,16 +130,21 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          <div className="relative mx-auto aspect-square w-full max-w-[580px]">
-            {/* Halo terracotta diffus derrière le fan */}
+          <div className="relative mx-auto flex aspect-square w-full max-w-[560px] items-center justify-center">
+            {/* Halo terracotta diffus derrière la grille */}
             <div
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(circle at center, color-mix(in oklab, var(--primary) 12%, transparent) 0%, transparent 60%)",
+                  "radial-gradient(circle at center, color-mix(in oklab, var(--primary) 12%, transparent) 0%, transparent 62%)",
               }}
             />
-            <PhotoFan className="absolute top-1/2 left-1/2 w-[480px] -translate-x-1/2 -translate-y-1/2" />
+            <HeroGrid
+              cells={HERO_CELLS_DESKTOP}
+              columns={4}
+              size="lg"
+              className="w-[440px]"
+            />
           </div>
         </section>
       </main>
@@ -122,6 +152,29 @@ export default function WelcomePage() {
       {/* Contenu SEO / informatif sous le hero */}
       <LandingContent />
     </div>
+  );
+}
+
+/** Eyebrow éditorial : trait court + libellé en capitales espacées. */
+function Eyebrow() {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="bg-primary h-px w-6" />
+      <span className="text-primary font-display text-[11px] font-bold tracking-[0.18em] uppercase">
+        {t.welcome.eyebrow}
+      </span>
+    </div>
+  );
+}
+
+/** Puce mobile : pastille terracotta + libellé + précision discrète. */
+function DotItem({ label, hint }: { label: string; hint: string }) {
+  return (
+    <li className="flex items-center gap-3 text-[15px]">
+      <span className="bg-primary size-1.5 shrink-0 rounded-full" />
+      <span className="font-medium">{label}</span>
+      <span className="text-muted-foreground text-[12.5px]">· {hint}</span>
+    </li>
   );
 }
 
